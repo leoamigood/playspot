@@ -5,7 +5,7 @@
 <html>
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/map.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
         
@@ -18,16 +18,31 @@
 			  		mapTypeId: google.maps.MapTypeId.ROADMAP,
 				}
 				var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title:"Hello World!"
+                });
+
+                marker.setMap(map);
+
+                var result = $.getJSON('/location/@data.latitude,@data.longitude',
+                    function(data, textStatus, jqXHR){
+                        $.each(data, function(key, val) {
+                            //alert(key + val);
+                    });
+                });
 			}
          </script>
-         
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	    <style type="text/css">
-	      html { height: 100% }
-	      body { height: 100%; margin: 0; padding: 0 }
-	      #map_canvas { height: 100% }
-	    </style>
-	    
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+  			html { height: 100% }
+  			body { height: 100%; margin: 0; padding: 0 }
+  			#map_canvas { height: 100% }
+		</style>
+
 	    <script type="text/javascript"
 	      src="http://maps.googleapis.com/maps/api/js?key=@data.apiKey&sensor=false">
 	    </script>
