@@ -20,7 +20,7 @@
             }
 
             function getLocations(map, lat, lng) {
-                $.getJSON('/location/' + lat + ',' + lng,
+                $.getJSON('/location/' + lat + ',' + lng + '/25',
                     function(data){
                         $.each(data, function(k, v) {
                             var coordinates = [
