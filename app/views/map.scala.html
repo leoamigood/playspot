@@ -19,7 +19,7 @@
                 return color;
             }
 
-            function initialize() {
+            $( document ).ready( function() {
 				var myLatlng = new google.maps.LatLng(@data.latitude,@data.longitude);
 				var mapOptions = {
 			  		zoom: 16,
@@ -59,7 +59,7 @@
                         });
                     }
                 );
-			}
+			});
          </script>
 
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -73,7 +73,7 @@
 	      src="http://maps.googleapis.com/maps/api/js?key=@data.apiKey&sensor=false">
 	    </script>
     </head>
-    <body onload="initialize()">
+    <body>
         @content
     </body>
 </html>
