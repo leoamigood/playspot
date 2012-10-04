@@ -21,39 +21,57 @@
 
             function getLocations(map, lat, lng) {
                 $.getJSON('/location/' + lat + ',' + lng + '/25',
-                    function(data){
-                        $.each(data, function(k, v) {
-                            var coordinates = [
-                                new google.maps.LatLng(v.fromLat, v.fromLng),
-                                new google.maps.LatLng(v.toLat, v.toLng),
-                            ];
-                            var path = new google.maps.Polyline({
-                                path: coordinates,
-                                strokeColor: get_random_color(),
-                                strokeOpacity: 1.0,
-                                strokeWeight: 2
-                            });
-                            path.setMap(map);
-
-                            var from = new google.maps.Marker({
-                                position: new google.maps.LatLng(v.fromLat, v.fromLng),
-                                map: map,
-                                title: v.sign + ": " + v.mainStreet + " & " + v.fromStreet
-                            });
-                            from.setMap(map);
-
-                            var to = new google.maps.Marker({
-                                position: new google.maps.LatLng(v.toLat, v.toLng),
-                                map: map,
-                                title: v.sign + ": " + v.mainStreet + " & " + v.toStreet
-                            });
-                            to.setMap(map);
-                        });
+                    function(data) {
+                        markLocations(map, data);
                     }
                 );
             }
 
+            function markLocations(map, data){
+                $.each(data, function(k, v) {
+                    var markers = google.maps.Map.prototype.markers;
+                    var coordinates = [
+                        new google.maps.LatLng(v.fromLat, v.fromLng),
+                        new google.maps.LatLng(v.toLat, v.toLng),
+                    ];
+                    var path = new google.maps.Polyline({
+                        path: coordinates,
+                        strokeColor: get_random_color(),
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+                    markers.push(path);
+                    path.setMap(map);
+
+                    var from = new google.maps.Marker({
+                        position: new google.maps.LatLng(v.fromLat, v.fromLng),
+                        map: map,
+                        title: v.sign + ": " + v.mainStreet + " & " + v.fromStreet
+                    });
+                    markers.push(from);
+                    from.setMap(map);
+
+                    var to = new google.maps.Marker({
+                        position: new google.maps.LatLng(v.toLat, v.toLng),
+                        map: map,
+                        title: v.sign + ": " + v.mainStreet + " & " + v.toStreet
+                    });
+                    markers.push(to);
+                    to.setMap(map);
+                });
+            }
+
+            function clearLocations(markers){
+                var markers = google.maps.Map.prototype.markers;
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+            }
+
+
             $( document ).ready( function() {
+                google.maps.Map.prototype.markers = new Array();
+
                 var myLatlng = new google.maps.LatLng(@data.latitude,@data.longitude);
 				var mapOptions = {
 			  		zoom: 16,
@@ -64,6 +82,10 @@
 
                 google.maps.event.addListener(map, 'dragend', function() {
                     getLocations(map, map.getCenter().lat(), map.getCenter().lng());
+                });
+
+                google.maps.event.addListener(map, 'rightclick', function() {
+                    clearLocations();
                 });
 
                 getLocations(map, @data.latitude, @data.longitude);
