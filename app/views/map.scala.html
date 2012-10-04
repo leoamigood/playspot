@@ -72,6 +72,16 @@
             $( document ).ready( function() {
                 google.maps.Map.prototype.markers = new Array();
 
+                var metadown;
+                $(window).keydown(function(evtobj) {
+                    if (evtobj.metaKey) {
+                        metadown = true;
+                    }
+                })
+                $(window).keyup(function(evtobj) {
+                    metadown = false;
+                })
+
                 var myLatlng = new google.maps.LatLng(@data.latitude,@data.longitude);
 				var mapOptions = {
 			  		zoom: 16,
@@ -84,8 +94,10 @@
                     getLocations(map, map.getCenter().lat(), map.getCenter().lng());
                 });
 
-                google.maps.event.addListener(map, 'rightclick', function() {
-                    clearLocations();
+                google.maps.event.addListener(map, 'click', function() {
+                    if (metadown) {
+                        clearLocations();
+                    }
                 });
 
                 getLocations(map, @data.latitude, @data.longitude);
