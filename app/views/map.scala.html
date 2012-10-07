@@ -20,7 +20,7 @@
             }
 
             function getLocations(map, lat, lng) {
-                $.getJSON('http://api.playspot.com/location/' + lat + ',' + lng + '/25',
+                $.getJSON('http://api.chaintale.com/location/' + lat + ',' + lng + '/25',
                     function(data) {
                         markLocations(map, data);
                     }
