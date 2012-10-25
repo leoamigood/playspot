@@ -10,7 +10,7 @@ object Application extends Controller {
     def index = Action {
         Ok(views.html.index("Your new application is ready."))
     }
-      
+
     def map(lat: String, lng: String) = Action {
         data.latitude = lat
         data.longitude = lng
