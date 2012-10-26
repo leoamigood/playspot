@@ -6,9 +6,9 @@
 GET     /                           controllers.Application.index
 
 #Map 
-GET     /map		      		controllers.Application.map(lat = null, lng = null)
-GET     /map/		      		controllers.Application.map(lat = null, lng = null)
-GET     /maps/:lat,:lng      		controllers.Application.map(lat: String, lng: String)
+GET     /map		    	    controllers.Application.map(lat = null, lng = null)
+GET     /map/		      	    controllers.Application.map(lat = null, lng = null)
+GET     /map/:lat,:lng		    controllers.Application.map(lat: String, lng: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -88,24 +88,9 @@
 
                 google.maps.Map.prototype.markers = new Array();
 
-                var metadown;
-                $(window).keydown(function(evtobj) {
-                    if (evtobj.metaKey) {
-                        metadown = true;
-                    }
-                })
-                $(window).keyup(function(evtobj) {
-                    metadown = false;
-                })
-
                 google.maps.event.addListener(map, 'dragend', function() {
+                    clearLocations();
                     getLocations(map, map.getCenter().lat(), map.getCenter().lng());
-                });
-
-                google.maps.event.addListener(map, 'click', function() {
-                    if (metadown) {
-                        clearLocations();
-                    }
                 });
             });
          </script>
