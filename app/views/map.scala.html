@@ -20,7 +20,7 @@
             }
 
             function getLocations(map, lat, lng) {
-                $.getJSON('@play.Play.application().configuration().getString("api_url")/location/' + lat + ',' + lng + '/25',
+                $.getJSON('@play.Play.application().configuration().getString("api_url")/location/' + lat + ',' + lng + '/500',
                     function(data) {
                         markLocations(map, data);
                     }
